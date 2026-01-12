@@ -43,7 +43,7 @@ public class AdminController {
     public ResponseEntity<ApiResponseDto<Void>>  deleteUser(@PathVariable Long id){
         adminService.deleteUsers(id);
         ApiResponseDto<Void> response = new ApiResponseDto<>(
-                true, "User Deleted", 0, null, LocalDateTime.now()
+                true, "User Deleted Successfully", 1, null, LocalDateTime.now()
         );
         return ResponseEntity.ok(response);
     }
@@ -52,7 +52,7 @@ public class AdminController {
                                                                            @PathVariable Long id){
         AdminUserResponseDto adminUserResponseDto = adminService.updateUser(dto, id);
         ApiResponseDto<AdminUserResponseDto> response = new ApiResponseDto<>(
-                true, "Updated sucessfull", 1, adminUserResponseDto, LocalDateTime.now()
+                true, "Updated successfully", 1, adminUserResponseDto, LocalDateTime.now()
         );
         return ResponseEntity.ok(response);
     }

@@ -37,6 +37,9 @@ public class SecurityConfig {
                                 "/auth/login"
                         ).permitAll()
 
+                        // 🔥 ADMIN ONLY
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         // baaki sab secure
                         .anyRequest().authenticated()
                 )
