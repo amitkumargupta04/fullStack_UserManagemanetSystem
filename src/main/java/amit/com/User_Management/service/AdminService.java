@@ -1,12 +1,15 @@
 package amit.com.User_Management.service;
 
+import amit.com.User_Management.dto.request.AdminUserCreateRequestDto;
 import amit.com.User_Management.dto.request.UserUpdateRequest;
+import amit.com.User_Management.dto.response.AdminUserCreateResponseDto;
 import amit.com.User_Management.dto.response.AdminUserResponseDto;
 import amit.com.User_Management.entity.User;
 import amit.com.User_Management.mapper.AdminMapper;
 import amit.com.User_Management.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,29 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    //Create Users Admin
+    public AdminUserCreateResponseDto createUser(AdminUserCreateRequestDto dto){
+        User user =new User();
+        user.setEmail(dto.getEmail());
+        user.setRole("USER"); // default
+        user.setPassword(passwordEncoder.encode("123456")); // default password
+
+        User savedUser = userRepository.save(user);
+
+        //Entity to response
+        AdminUserCreateResponseDto response =new AdminUserCreateResponseDto();
+        response.setId(savedUser.getId());
+        response.setFullname(savedUser.getFullname());
+        response.setEmail(savedUser.getEmail());
+        response.setRole(savedUser.getRole());
+        response.setDob(savedUser.getDob());
+        response.setGender(savedUser.getGender());
+        response.setPicture(savedUser.getPicture());
+        response.setAddress(savedUser.getAddress());
+        return response;
+    }
     // get All Users
     public List<AdminUserResponseDto> getAllUsers(){
         List<User> users = userRepository.findAll();

@@ -1,7 +1,9 @@
 package amit.com.User_Management.controller;
 
 import amit.com.User_Management.dto.common.ApiResponseDto;
+import amit.com.User_Management.dto.request.AdminUserCreateRequestDto;
 import amit.com.User_Management.dto.request.UserUpdateRequest;
+import amit.com.User_Management.dto.response.AdminUserCreateResponseDto;
 import amit.com.User_Management.dto.response.AdminUserResponseDto;
 import amit.com.User_Management.entity.User;
 import amit.com.User_Management.service.AdminService;
@@ -19,6 +21,14 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponseDto<AdminUserCreateResponseDto>> createUser(@RequestBody AdminUserCreateRequestDto dto){
+        AdminUserCreateResponseDto adminUserCreateResponseDto = adminService.createUser(dto);
+        ApiResponseDto<AdminUserCreateResponseDto> response = new ApiResponseDto<>(
+                true, "User created successfully", 1, adminUserCreateResponseDto, LocalDateTime.now()
+        );
+        return ResponseEntity.ok(response);
+    }
     @GetMapping("/all")
     public ResponseEntity<ApiResponseDto<List<AdminUserResponseDto>>> getAllUsers(){
         List<AdminUserResponseDto> dto = adminService.getAllUsers();

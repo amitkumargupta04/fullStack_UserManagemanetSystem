@@ -36,7 +36,7 @@ public class JwtService {
                 .compact();
     }
 
-    // ------------------ 1️⃣ Extract Email from token ------------------
+    // ------------------ Extract Email from token ------------------
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -51,7 +51,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    // ------------------ 2️⃣ Check if token is valid for a user ------------------
+    // ------------------ Check if token is valid for a user ------------------
     public boolean isTokenValid(String token, User user) {
         final String email = extractEmail(token);             // token se email nikala
         return (email.equals(user.getEmail()) && !isTokenExpired(token));  // email match + expiry check
